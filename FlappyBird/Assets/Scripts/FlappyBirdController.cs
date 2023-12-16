@@ -29,24 +29,6 @@ public class FlappyBirdController : MonoBehaviour
 
         score_text.text = score.ToString();
 
-        if (Time.timeScale >= 2f) 
-        {
-            float maxTime = 5f;
-            float timer = 0f;
-            timer = Time.deltaTime;
-            if (timer >= maxTime) 
-            {
-                timer = 0f;
-                Time.timeScale = 1f;
-                jumpForce = 0f;
-                pipe.SetActive(true);
-                GetComponent<Collider2D>().enabled = true;
-                GetComponent<Rigidbody2D>().gravityScale = 2;
-
-            }
-            
-        }
-
     }
 
     private void OnTriggerEnter2D(Collider2D temas)
@@ -59,13 +41,14 @@ public class FlappyBirdController : MonoBehaviour
         if(temas.gameObject.tag == "Speed")
         {
             Destroy(temas.gameObject);
-            Time.timeScale = 2.0f;
-            score = score + 5;
+            Time.timeScale = 6.5f;
+            score += 10;
             jumpForce = 0f;
-            pipe.SetActive(false);
             GetComponent<Collider2D>().enabled = false;
             GetComponent<Rigidbody2D>().velocity = Vector2.up * 0;
             GetComponent<Rigidbody2D>().gravityScale = 0; 
+
+            StartCoroutine(ResetSpeedBoost()); //ResetSpeedBoost fonksiyonunu çalýþtýrýr.
         }
     }
 
@@ -75,6 +58,18 @@ public class FlappyBirdController : MonoBehaviour
         {
            // Time.timeScale = 0;
         }
+    }
+
+    private IEnumerator ResetSpeedBoost() //hýz boostu bittikten sonra her þeyi normale döndürür.
+    {
+        yield return new WaitForSeconds(8.0f); //hýz boostunun 4-5 saniye sürmesini saðlar.
+
+        jumpForce = 5f;
+        Time.timeScale = 1.0f;
+        GetComponent<Rigidbody2D>().gravityScale = 2.0f;
+
+        yield return new WaitForSeconds(1.5f); //hýz boostu bittikten sonra oyuncunun kendini toparlamasý için süre verilir.
+        GetComponent<Collider2D>().enabled = true;
     }
 }
 
