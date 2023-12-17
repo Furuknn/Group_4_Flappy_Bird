@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1803288656545631274}
   m_Layer: 0
   m_Name: Pipe_Chirstmas
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -191,7 +191,7 @@ GameObject:
   - component: {fileID: 8534190062170882140}
   m_Layer: 0
   m_Name: Pipe_Chirstmas
-  m_TagString: Untagged
+  m_TagString: Pipe
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

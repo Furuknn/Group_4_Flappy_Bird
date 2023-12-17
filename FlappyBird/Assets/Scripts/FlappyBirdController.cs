@@ -12,6 +12,8 @@ public class FlappyBirdController : MonoBehaviour
     public Text score_text;
     public float score;
     public GameObject pipe;
+    public GameObject shield;
+    public bool inShield = false;
 
     private void Start()
     {
@@ -19,6 +21,8 @@ public class FlappyBirdController : MonoBehaviour
         GetComponent<Collider2D>().enabled = true;
         jumpForce = 5f;
         pipe.SetActive(true);
+        shield.SetActive(false);
+        inShield = false;
     }
     void Update()
     {
@@ -50,13 +54,28 @@ public class FlappyBirdController : MonoBehaviour
 
             StartCoroutine(ResetSpeedBoost()); //ResetSpeedBoost fonksiyonunu çalýþtýrýr.
         }
+
+        if( temas.gameObject.tag == "Shield")
+        {
+            Destroy (temas.gameObject);
+            shield.SetActive (true);
+            inShield = true;
+
+            StartCoroutine(ResetShieldSkill());
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D temas)
     {
-        if ( temas.gameObject.tag == "Pipe")
+        if (temas.gameObject.tag == "Pipe")
         {
-           // Time.timeScale = 0;
+            if (inShield)
+            {
+                shield.SetActive(false);
+                inShield = false;
+            }else{
+                Time.timeScale = 0;
+            }
         }
     }
 
@@ -70,6 +89,14 @@ public class FlappyBirdController : MonoBehaviour
 
         yield return new WaitForSeconds(1.5f); //hýz boostu bittikten sonra oyuncunun kendini toparlamasý için süre verilir.
         GetComponent<Collider2D>().enabled = true;
+    }
+
+    private IEnumerator ResetShieldSkill()
+    {
+        yield return new WaitForSeconds(5.0f);
+
+        shield.SetActive(false);
+        inShield = false;
     }
 }
 
