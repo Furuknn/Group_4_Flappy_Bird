@@ -8,6 +8,7 @@ TagManager:
   - Pipe
   - Speed
   - Shield
+  - Ground
   layers:
   - Default
   - TransparentFX

@@ -8,21 +8,28 @@ using UnityEngine.XR;
 
 public class FlappyBirdController : MonoBehaviour
 {
+    float shieldDuration = 0.8f;
+
     public float jumpForce = 5f;
     public Text score_text;
     public float score;
     public GameObject pipe;
-    public GameObject shield;
+    public GameObject shieldItem;
+    [SerializeField] private GameObject forceField;
+    [SerializeField]private Animator animator;
     public bool inShield = false;
 
     private void Start()
     {
+        
         score = 0;
         GetComponent<Collider2D>().enabled = true;
         jumpForce = 5f;
-        pipe.SetActive(true);
-        shield.SetActive(false);
         inShield = false;
+
+        pipe.SetActive(true);
+        forceField.SetActive(false);
+        shieldItem.SetActive(true);
     }
     void Update()
     {
@@ -55,13 +62,13 @@ public class FlappyBirdController : MonoBehaviour
             StartCoroutine(ResetSpeedBoost()); //ResetSpeedBoost fonksiyonunu çalýþtýrýr.
         }
 
-        if( temas.gameObject.tag == "Shield")
+        if(temas.gameObject.tag == "Shield")
         {
             Destroy (temas.gameObject);
-            shield.SetActive (true);
+            forceField.SetActive(true);
             inShield = true;
 
-            StartCoroutine(ResetShieldSkill());
+            Invoke("EndShieldSkill", 5.0f);
         }
     }
 
@@ -71,9 +78,22 @@ public class FlappyBirdController : MonoBehaviour
         {
             if (inShield)
             {
-                shield.SetActive(false);
-                inShield = false;
-            }else{
+                temas.collider.enabled = false; //shield aktifken temas edilen pipe'ýn collider'ýný kapatýr.
+                Invoke("BreakShield", 0);
+                
+            }
+            else{
+                Time.timeScale = 0;
+            }
+        }
+        else if (temas.gameObject.tag=="Ground")
+        {
+            if (inShield)
+            {
+                Invoke("BreakShield", 0);
+            }
+            else
+            {
                 Time.timeScale = 0;
             }
         }
@@ -91,11 +111,19 @@ public class FlappyBirdController : MonoBehaviour
         GetComponent<Collider2D>().enabled = true;
     }
 
-    private IEnumerator ResetShieldSkill()
+    private void EndShieldSkill()
     {
-        yield return new WaitForSeconds(5.0f);
+        Invoke("BreakShield",0);
+    }
+    private void BreakShield()
+    {
+        animator.SetBool("IsShieldBroken", true);
 
-        shield.SetActive(false);
+        Invoke("TurnOffShield", shieldDuration);
+    }
+    private void TurnOffShield() {
+        animator.SetBool("IsShieldBroken", false);
+        forceField.SetActive(false);
         inShield = false;
     }
 }
