@@ -64,6 +64,9 @@ TagManager:
   - name: Shield
     uniqueID: 3277594843
     locked: 0
+  - name: Pane
+    uniqueID: 756329229
+    locked: 0
   - name: Canvas
     uniqueID: 2331181603
     locked: 0
