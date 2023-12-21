@@ -22,4 +22,12 @@ public class MainMenuScript : MonoBehaviour
     {
         SceneManager.LoadScene("FlappyBird");
     }
+
+    public void Quit()
+    {
+        if (Input.GetKeyUp(KeyCode.Escape))
+        {
+            Application.Quit();
+        }
+    }
 }

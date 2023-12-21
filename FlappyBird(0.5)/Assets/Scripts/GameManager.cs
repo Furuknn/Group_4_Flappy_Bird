@@ -13,14 +13,12 @@ public class GameManager : MonoBehaviour
     {
         // Game Over menüsünü baþlangýçta gizle
         gameOverMenu.SetActive(false);
-        Score.SetActive(true);
     }
 
     public void ShowGameOverMenu()
     {
         // Game Over menüsünü aktifleþtir
         gameOverMenu.SetActive(true);
-        //Score.SetActive(false);
 
     }
 
