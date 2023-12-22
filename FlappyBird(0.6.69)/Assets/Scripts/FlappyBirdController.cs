@@ -15,10 +15,13 @@ public class FlappyBirdController : MonoBehaviour
     float multiplierDuration = 7.0f;
 
     public float jumpForce = 5f;
+    private float rotationSpeed = 5f;
+
     public Text score_text;
     public TextMeshProUGUI creditsData;
     public int score;
 
+    private Rigidbody2D rigidbody2D;
     public GameObject pipes,pipeUp,pipeDown;
     public GameObject shieldItem,multiplierItem;
     [SerializeField] private GameObject forceField;
@@ -30,12 +33,12 @@ public class FlappyBirdController : MonoBehaviour
     [HideInInspector] public bool isFailed = false;
     [HideInInspector] public bool isMultiplierOn = false;
 
-    private void Start()
-    {
+    private void Start(){
         PlayerPrefs.SetInt("Total_Credits", 0);
 
         Time.timeScale = 0f;
         score = 0;
+        rigidbody2D = GetComponent<Rigidbody2D>();
         GetComponent<Collider2D>().enabled = true;
         jumpForce = 5f;
         inShield = false;
@@ -44,13 +47,13 @@ public class FlappyBirdController : MonoBehaviour
         forceField.SetActive(false);
         shieldItem.SetActive(true);
     }
-    void Update()
-    {
+    void Update(){
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             if (isSpeedy==false && isFailed==false)
             {
                 Time.timeScale = 1f;
+                FindObjectOfType<GameManager>().HideGetReadyMenu();
             }
             if (transform.position.y >= 4.0) { }
             else
@@ -66,8 +69,7 @@ public class FlappyBirdController : MonoBehaviour
         creditsData.text = PlayerPrefs.GetInt("Total_Score", 0).ToString();
 
     }
-    private void LateUpdate()
-    {
+    private void LateUpdate(){
         if (isMultiplierOn == true){
             multSprite.SetActive(true);
             score_text.color = Color.yellow;
@@ -76,11 +78,12 @@ public class FlappyBirdController : MonoBehaviour
             multSprite.SetActive(false);
             score_text.color= Color.white;
         }
-        if (isFailed==true)
-        {
+        if (isFailed==true){
             GameOver();
-        }
-        
+        } 
+    }
+    private void FixedUpdate(){
+        transform.rotation = Quaternion.Euler(0, 0, rigidbody2D.velocity.y * rotationSpeed);
     }
 
     private void OnTriggerEnter2D(Collider2D temas)
