@@ -88,7 +88,8 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D temas)
     {
-        if (temas.gameObject.tag == "Scorer"){
+        if (temas.gameObject.tag == "Scorer")
+        {
             if (isMultiplierOn == true)
             {
                 score += 2;
@@ -98,26 +99,29 @@ public class FlappyBirdController : MonoBehaviour
                 ++score;
         }
 
-        if(temas.gameObject.tag == "Speed"){
+        if (temas.gameObject.tag == "Speed")
+        {
             Destroy(temas.gameObject);
             Time.timeScale = 4f;
             jumpForce = 0f;
             isSpeedy = true;
             glowParticles.SetActive(true);
             GetComponent<Rigidbody2D>().velocity = Vector2.up * 0;
-            GetComponent<Rigidbody2D>().gravityScale = 0; 
+            GetComponent<Rigidbody2D>().gravityScale = 0;
 
             StartCoroutine(ResetSpeedBoost()); //ResetSpeedBoost fonksiyonunu çalýþtýrýr.
         }
 
-        if(temas.gameObject.tag == "Shield"){
-            Destroy (temas.gameObject);
+        if (temas.gameObject.tag == "Shield")
+        {
+            Destroy(temas.gameObject);
             forceField.SetActive(true);
             inShield = true;
 
-            Invoke("BreakShield", shieldDuration*Time.timeScale);
+            Invoke("BreakShield", shieldDuration * Time.timeScale);
         }
-        if (temas.gameObject.tag=="Multiplier"){
+        if (temas.gameObject.tag == "Multiplier")
+        {
             Destroy(temas.gameObject);
             isMultiplierOn = true;
         }
@@ -125,31 +129,37 @@ public class FlappyBirdController : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D temas)
     {
-        if (temas.gameObject.tag == "Pipe"){
-            if (inShield){
+        if (temas.gameObject.tag == "Pipe")
+        {
+            if (inShield)
+            {
                 temas.collider.enabled = false; //shield aktifken temas edilen pipe'ýn collider'ýný kapatýr.
                 Invoke("BreakShield", 0);
             }
-            else{
+            else
+            {
                 isFailed = true;
-                PlayerPrefs.SetInt("Total_Score", PlayerPrefs.GetInt("Total_Score",0)+score);
+                PlayerPrefs.SetInt("Total_Score", PlayerPrefs.GetInt("Total_Score", 0) + score);
                 PlayerPrefs.Save();
                 Time.timeScale = 0;
-                
+
             }
         }
-        else if (temas.gameObject.tag=="Ground"){
-            if (inShield){
+        else if (temas.gameObject.tag == "Ground")
+        {
+            if (inShield)
+            {
                 Invoke("BreakShield", 0);
             }
-            else{
+            else
+            {
                 isFailed = true;
                 PlayerPrefs.SetInt("Total_Score", PlayerPrefs.GetInt("Total_Score", 0) + score); //PlayerPrefs küçük boyutlu veri saklar. Oyun kapatýldýðýnda bile veri kaybedilmez. 
                 PlayerPrefs.Save();
                 Time.timeScale = 0;
             }
         }
-    }
+    }    
 
     private IEnumerator ResetSpeedBoost() //hýz boostu bittikten sonra her þeyi normale döndürür.
     {
@@ -185,7 +195,10 @@ public class FlappyBirdController : MonoBehaviour
         // Game Over menüsünü etkinleþtir
         FindObjectOfType<GameManager>().ShowGameOverMenu();
         score_text.transform.position = Vector3.zero;
+        score_text.color = Color.white;
+        multSprite.SetActive(false);
         Time.timeScale = 0;
+
 
     }
 }

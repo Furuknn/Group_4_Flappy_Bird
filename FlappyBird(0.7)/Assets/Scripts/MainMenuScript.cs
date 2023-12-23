@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using TMPro;
 
 public class MainMenuScript : MonoBehaviour
 {
@@ -10,6 +11,8 @@ public class MainMenuScript : MonoBehaviour
     public GameObject christmasButton, originalButton;
     public GameObject mainMenu_UI;
     public GameObject SettingsMenu;
+    public GameObject ShopMenu;
+ 
     // Start is called before the first frame update
     void Start()
     {
@@ -40,6 +43,22 @@ public class MainMenuScript : MonoBehaviour
         else
         {
             SettingsMenu.SetActive(true);
+            mainMenu_UI.SetActive(false);
+        }
+
+    }
+
+    public void ToggleShop()
+    {
+        if (ShopMenu.activeSelf == true)
+        {
+            ShopMenu.SetActive(false);
+            mainMenu_UI.SetActive(true);
+
+        }
+        else
+        {
+            ShopMenu.SetActive(true);
             mainMenu_UI.SetActive(false);
         }
 
