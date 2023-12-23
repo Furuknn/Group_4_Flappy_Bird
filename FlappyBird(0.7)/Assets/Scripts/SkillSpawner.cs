@@ -5,8 +5,9 @@ using UnityEngine;
 public class SkillSpawner : MonoBehaviour
 {
     public GameObject prefabToSpawn;
-    public float minSpawnInterval = 1f;
-    public float maxSpawnInterval = 5f;
+    public float minSpawnInterval;
+    public float maxSpawnInterval;
+    private FlappyBirdController controller;
 
     void Start()
     {
@@ -14,17 +15,23 @@ public class SkillSpawner : MonoBehaviour
         Invoke("SpawnPrefab", Random.Range(minSpawnInterval, maxSpawnInterval));
     }
 
+ 
+
     void SpawnPrefab()
     {
+        { 
+            // Prefab'ýn spawn edileceði pozisyonu belirle
+            Vector3 spawnPosition = new Vector3(0f, Random.Range(-2f, 2f), Random.Range(-0f, 0f));
 
-        // Prefab'ýn spawn edileceði pozisyonu belirle
-        Vector3 spawnPosition = new Vector3(16, 0f, Random.Range(-0f, 0f));
+            // Prefab'ý spawn et
+            
+      
+                Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
+            
 
-        // Prefab'ý spawn et
-        Instantiate(prefabToSpawn, spawnPosition, Quaternion.identity);
-
-        // Bir sonraki spawn zamanýný rastgele belirle ve Invoke metodunu kullanarak tekrar çaðýr
-        float nextSpawnTime = Random.Range(minSpawnInterval, maxSpawnInterval);
-        Invoke("SpawnPrefab", nextSpawnTime);
+            // Bir sonraki spawn zamanýný rastgele belirle ve Invoke metodunu kullanarak tekrar çaðýr
+            float nextSpawnTime = Random.Range(minSpawnInterval, maxSpawnInterval);
+            Invoke("SpawnPrefab", nextSpawnTime);
+        }
     }
 }

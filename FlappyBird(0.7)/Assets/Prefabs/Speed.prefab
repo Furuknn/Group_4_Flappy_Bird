@@ -138,9 +138,9 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1133267953149207133}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9f8aa7ba47fd6bb41b8282f35fff711d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 5.1
+  speed: 0

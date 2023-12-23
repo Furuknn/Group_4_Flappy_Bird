@@ -41,7 +41,7 @@ public class FlappyBirdController : MonoBehaviour
         GetComponent<Collider2D>().enabled = true;
         jumpForce = 5f;
         inShield = false;
-
+        isSpeedy = false;
         pipes.SetActive(true);
         forceField.SetActive(false);
         shieldItem.SetActive(true);
