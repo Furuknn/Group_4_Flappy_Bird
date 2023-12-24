@@ -10,8 +10,6 @@ using UnityEngine.XR;
 
 public class FlappyBirdController : MonoBehaviour
 {
-    float shieldDuration = 7.0f;
-    float multiplierDuration = 7.0f;
 
     public float jumpForce = 5f;
     private float rotationSpeed = 5f;
@@ -37,6 +35,8 @@ public class FlappyBirdController : MonoBehaviour
         PlayerPrefs.SetInt("Total_Credits", 0);
         audioManager=FindObjectOfType<GameAudioManager>();
 
+        
+
         Time.timeScale = 0f;
         score = 0;
         rigidBody2D = GetComponent<Rigidbody2D>();
@@ -49,6 +49,7 @@ public class FlappyBirdController : MonoBehaviour
         shieldItem.SetActive(true);
     }
     void Update(){
+        Debug.Log(BoostDuration("speedLevel"));
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0))
         {
             if (isSpeedy==false && isFailed==false)
@@ -95,7 +96,7 @@ public class FlappyBirdController : MonoBehaviour
             if (isMultiplierOn == true)
             {
                 score += 2;
-                Invoke("DeactivateMultiplier", multiplierDuration);
+                Invoke("DeactivateMultiplier", BoostDuration("multiplierLevel"));
             }
             else
                 ++score;
@@ -121,7 +122,7 @@ public class FlappyBirdController : MonoBehaviour
             forceField.SetActive(true);
             inShield = true;
 
-            Invoke("BreakShield", shieldDuration * Time.timeScale);
+            Invoke("BreakShield", BoostDuration("shieldLevel") * Time.timeScale);
         }
         if (temas.gameObject.tag == "Multiplier")
         {
@@ -168,7 +169,7 @@ public class FlappyBirdController : MonoBehaviour
 
     private IEnumerator ResetSpeedBoost() //hýz boostu bittikten sonra her þeyi normale döndürür.
     {
-        yield return new WaitForSeconds(7.0f*Time.timeScale); //hýz boostunun 7 saniye sürmesini saðlar.
+        yield return new WaitForSeconds(BoostDuration("speedLevel")*Time.timeScale); //hýz boostunun seviyeye göre 7-8-9-10 saniye sürmesini saðlar.
 
         jumpForce = 5f;
         Time.timeScale = 1.0f;
@@ -206,7 +207,30 @@ public class FlappyBirdController : MonoBehaviour
         multSprite.SetActive(false);
         Time.timeScale = 0;
 
+    }
 
+    public float BoostDuration(string boostlevel)
+    {
+        if (PlayerPrefs.GetInt(boostlevel)==0)
+        {
+            return 7.0f;
+        }
+        if (PlayerPrefs.GetInt(boostlevel) == 1)
+        {
+            return 8.0f;
+        }
+        if (PlayerPrefs.GetInt(boostlevel) == 2)
+        {
+            return 9.0f;
+        }
+        if (PlayerPrefs.GetInt(boostlevel) >= 3)
+        {
+            return 10.0f;
+        }
+        else
+        {
+            return 0;
+        }
     }
 }
 
